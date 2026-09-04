@@ -118,6 +118,8 @@ nav {
     animation: pulse 2s infinite;
 }
 
+/* section volontairement très haute (500vh) pour avoir assez de scroll
+   à "consommer" avant que le carousel ait fini toute sa rotation */
 .showcase-section {
     height: 500vh;
     position: relative;
@@ -135,6 +137,9 @@ nav {
     overflow: hidden;
 }
 
+/* la rotation réelle est appliquée en JS (script.js) selon le scroll,
+   ici on prépare juste la perspective 3D et une transition très courte
+   pour que ça reste fluide sans "traîner" derrière la souris */
 .carousel3d {
     width: 320px;
     height: 460px;
