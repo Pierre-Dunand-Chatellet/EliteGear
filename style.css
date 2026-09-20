@@ -129,6 +129,9 @@ nav {
     position: sticky;
     top: 0;
     height: 100vh;
+    /* svh : sur mobile, 100vh inclut la barre d'adresse et la scene sautait
+       quand celle-ci se retracte au defilement */
+    height: 100svh;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -141,18 +144,29 @@ nav {
    ici on prépare juste la perspective 3D et une transition très courte
    pour que ça reste fluide sans "traîner" derrière la souris */
 .carousel3d {
-    width: 320px;
-    height: 460px;
+    /* toute la geometrie tient dans ces trois variables : les media queries
+       n'ont plus qu'a les redefinir pour adapter le carrousel a l'ecran */
+    --card-w: 320px;
+    --card-h: 460px;
+    --radius: 380px;
+
+    width: var(--card-w);
+    height: var(--card-h);
     position: absolute;
     transform-style: preserve-3d;
     will-change: transform;
-    transition: transform 0.05s ease-out;
+    /* la rotation se cale desormais sur des paliers de 60deg (voir script.js) :
+       il faut une transition assez longue pour que le passage d'une carte a
+       l'autre soit un glissement et non un saut */
+    transition: transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 .product-card {
     position: absolute;
-    width: 320px;
-    height: 460px;
+    width: var(--card-w);
+    height: var(--card-h);
+    /* chaque carte se place toute seule sur l'anneau depuis son index --i */
+    transform: rotateY(calc(var(--i) * 60deg)) translateZ(var(--radius));
     background: var(--card-bg);
     border: 1px solid var(--card-border);
     backdrop-filter: blur(20px);
@@ -284,6 +298,31 @@ nav {
 /* ========================================================================= */
 
 @media screen and (max-width: 768px) {
+
+    /* Carrousel : les cartes gardaient 320px de large sur un ecran de 375px.
+       On redimensionne, et le rayon suit la meme proportion (380/320) pour
+       que l'anneau garde son allure. */
+    .carousel3d {
+        --card-w: min(300px, 76vw);
+        --card-h: 420px;
+        --radius: calc(var(--card-w) * 1.1875);
+    }
+
+    .product-card {
+        padding: 1.25rem;
+    }
+
+    .product-image-area {
+        height: 150px;
+    }
+
+    .product-meta h3 {
+        font-size: 1.1rem;
+    }
+
+    .product-meta p {
+        font-size: 0.85rem;
+    }
 
     /* Navigation : On centre et on empile si besoin */
     nav {
