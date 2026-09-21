@@ -1,5 +1,7 @@
 # EliteGear
 
+![Aperçu du projet](apercu.jpg)
+
 Page vitrine d'une boutique fictive de périphériques gaming. L'exercice : un carrousel en 3D
 dont la rotation suit la position de défilement de la page.
 
